@@ -1710,7 +1710,7 @@ function create_menu($result){
                       // define the navigation identifier for marking nav entry as active
                       $url_query = parse_url($nav_link_details[1], PHP_URL_QUERY);
                       $url_query_explode = explode("=", $url_query);
-                      $navigation_identifier = $url_query_explode[1];
+                      $navigation_identifier = isset($url_query_explode[1]);
                       NConf_DEBUG::set($navigation_identifier, 'DEBUG', "navigation identifier");
                       
                       // if no query identifier found use the script name (like for the history entry)
