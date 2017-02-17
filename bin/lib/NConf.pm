@@ -45,7 +45,7 @@ use POSIX qw/ strftime /;
 my $d = strftime("%Y-%m-%d %H:%M:%S", localtime);
 print STDERR "\n";
 print STDERR "[ $d Initializing NConf perl-API (library version $VERSION, written by $AUTHOR and maintained by $MAINTAINER) ]\n";
-print STDERR "[ $d Copyright $COPYRIGHT  ]\n\n";
+print STDERR "[ $d $COPYRIGHT  ]\n\n";
 
 ##############################################################################
 ### S U B S ##################################################################
