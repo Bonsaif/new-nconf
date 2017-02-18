@@ -313,7 +313,7 @@ $detail_navigation = '<div id="ui-nconf-icon-bar">'
     
 echo NConf_HTML::ui_box_header($box1.$detail_navigation);
 
-    $output .= '<div>';
+    $output = '<div>';
     // Service select field
     $output .= '<fieldset class="inline">';
     $output .= '<legend>Add additional services to host</legend>';
@@ -411,7 +411,7 @@ unset($output);
     $service_names = db_handler($query, "array", "get all advanced services"); 
 
 
-    $output .= '<select id="fromBox_advanced_services" name="from_advanced_services[]" style="'.CSS_SELECT_MULTI.'" multiple >';
+    $output = '<select id="fromBox_advanced_services" name="from_advanced_services[]" style="'.CSS_SELECT_MULTI.'" multiple >';
 
     $services = db_templates("get_services_from_host_id", $host_ID, "advanced-service");
 
@@ -472,7 +472,7 @@ unset($output);
     echo NConf_HTML::ui_box_header($box3);
     
     // progress indicator / loading
-    $output .= '<img id="hostgroup_service_loading" src="img/working_small.gif" alt="loading" style="display:none">';
+    $output = '<img id="hostgroup_service_loading" src="img/working_small.gif" alt="loading" style="display:none">';
 
     // Place for hostgroup service list
     $output .= '<div id="hostgroup_service_list" style="display:none"></div>';
