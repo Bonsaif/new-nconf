@@ -7,6 +7,7 @@
 */
 class NConf_Deployment{
     public $path;
+	public $name;
     public $modules = array();
     public $config_path;
 
