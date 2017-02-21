@@ -21,6 +21,7 @@ if ( defined("AUTH_METHOD") AND AUTH_METHOD == "basic") {
     $_POST["password"] = $_SERVER['PHP_AUTH_PW'];
 }else{
     $user_loginname = $_POST["username"];
+	error_log(" -->NCONF-INFO<--: Access granted to user '".$user_loginname."'. ", 0);
 }
 
 
