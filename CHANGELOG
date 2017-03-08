@@ -1,8 +1,10 @@
 Working Release
 
+CHANGED	preparation for db-module switch from deprecated mysql to mysqli
+ADDED	some additional logging features
 FIXED   some issues with php and perl compatibelity
 
-Release 1.3.1 (tbd)
+Release 1.3.1 (2017-02-17) (branch feature-navigation merged to master)
 
 FIXED   security issue: contents of the config directory were viewable. Added .htaccess file to prevent users from accessing .ini files etc.
 FIXED   security issue: 2 vulnerabilities listed on exploit-db.com for version 1.3.0
