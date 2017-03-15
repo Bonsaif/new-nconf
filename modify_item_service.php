@@ -465,7 +465,7 @@ unset($output);
 
     # box for direct host services
     $box3 = '<div style="float: left; margin-right: 5px;">';
-        $box3 .= NConf_HTML::title('Advanced services (inherited over hostgroups)');
+    $box3 .= NConf_HTML::title('Advanced services (inherited over hostgroups)');
     $box3 .= '</div>';
     $box3 .= '<div name="help_hostgroup_services"></div>';
     $box3 .= '<div style="clear: both"></div>';
@@ -519,6 +519,6 @@ echo '</div>';
 
 <?php
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

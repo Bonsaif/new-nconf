@@ -13,7 +13,7 @@ if( !empty($_GET["item"]) OR !empty($config_class)  ){
     ";
     $result = db_handler($query, "result", "Load not visible attrs");
     
-    while($entry = mysql_fetch_assoc($result)){
+    while($entry = mysqli_fetch_assoc($result)){
 
         if( ($entry["datatype"] == "text") OR ($entry["datatype"] == "select") ){
             $output = '<input type="hidden" name="'.$entry["id_attr"].'" value="'.$entry["predef_value"].'">';

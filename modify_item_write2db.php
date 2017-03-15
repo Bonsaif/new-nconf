@@ -143,12 +143,12 @@ if ( isset($_POST["modify"]) ){
     $result = db_handler($query, "result", "does entry already exist");
             
     # Entry exists ?
-    if ( mysql_num_rows($result) ){
+    if ( mysqli_num_rows($result) ){
         NConf_DEBUG::set('An item with the name &quot;'.$_POST[$id_naming_attr].'&quot; already exists!', 'ERROR');
         NConf_DEBUG::set('For its details click the link below or go back:', 'ERROR');
 
          $list_items = '';
-        while($entry = mysql_fetch_assoc($result)){
+        while($entry = mysqli_fetch_assoc($result)){
             $list_items .=  '<li><a href="detail.php?id='.$entry["fk_id_item"].'">'.$entry["attr_value"].'</a></li>';
         }
         $list = '<ul>'.$list_items.'</ul>';
@@ -159,7 +159,7 @@ if ( isset($_POST["modify"]) ){
         if ($config_class == "host") {
             # Vererben ?
             $vererben1_result = db_templates("vererben", $id);
-            while($row = mysql_fetch_assoc($vererben1_result)){
+            while($row = mysqli_fetch_assoc($vererben1_result)){
                 $vererben1[$row["item_id"]] = $row["attr_name"];
             }
         }
@@ -245,7 +245,7 @@ if ( isset($_POST["modify"]) ){
                     $name = db_templates("naming_attr", $id);
                     # Vererben ?
                     $vererben2_result = db_templates("vererben", $id);
-                    while($row = mysql_fetch_assoc($vererben2_result)){
+                    while($row = mysqli_fetch_assoc($vererben2_result)){
                         $vererben2[$row["item_id"]] = $row["attr_name"];
                     }
          
@@ -388,6 +388,6 @@ if ( isset($_POST["modify"]) ){
 
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

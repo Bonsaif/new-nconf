@@ -153,7 +153,7 @@ if ($write2db == "yes"){
         echo 'Successfully cloned service &quot;<b>'.$source_service_name.'</b>&quot; to the following hosts:</b><br><br>';
         echo NConf_DEBUG::show_debug('INFO', TRUE);
 
-        mysql_close($dbh);
+        mysqli_close($dbh);
         require_once 'include/foot.php';
     }
 
@@ -161,7 +161,7 @@ if ($write2db == "yes"){
     # no write
     # when clone2hosts show also the footer
     if ($_GET["action"] == "clone2hosts"){
-        mysql_close($dbh);
+        mysqli_close($dbh);
         require_once 'include/foot.php';
     }
 }

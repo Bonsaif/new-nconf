@@ -211,9 +211,9 @@ if ( isset($_SESSION["cache"]["use_cache"]) ){
                     <?php if ($id != "new") echo "disabled"; ?>
                     >
 <?php
-    $query = mysql_query("SELECT id_class,config_class FROM ConfigClasses ORDER BY config_class");
+    $query = mysqli_query($dbh, "SELECT id_class,config_class FROM ConfigClasses ORDER BY config_class");
 
-    while($entry = mysql_fetch_row($query)){
+    while($entry = mysqli_fetch_row($query)){
         echo '<option value='.$entry[0];
             if ( $entry[0] == $attr_entry["fk_id_class"] ) echo " selected";
         echo " >$entry[1]</option>";
@@ -242,9 +242,9 @@ if ( isset($_SESSION["cache"]["use_cache"]) ){
                 <td></td>
                 <td><select name="fk_show_class_items" disabled>
 <?php
-    $query = mysql_query("SELECT id_class,config_class FROM ConfigClasses ORDER BY config_class");
+    $query = mysqli_query($dbh, "SELECT id_class,config_class FROM ConfigClasses ORDER BY config_class");
 
-    while($entry = mysql_fetch_row($query)){
+    while($entry = mysqli_fetch_row($query)){
         //echo "<option value=$entry[0]>$entry[1]</option>";
         echo '<option value='.$entry[0];
             if ( $entry[0] == $attr_entry["fk_show_class_items"] ) echo " selected";
@@ -670,6 +670,6 @@ if ($id != "new"){
 <?php
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

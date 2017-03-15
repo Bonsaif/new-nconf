@@ -60,7 +60,7 @@ $class_name = db_handler($query, "getOne", "get class name");
 ###
 # check if attr already exists in this class
 ###
-$query = 'SELECT id_attr, attr_name, friendly_name FROM ConfigAttrs WHERE fk_id_class="' . $fk_id_class . '" AND attr_name ="' . mysql_real_escape_string($attr_name) . '"';
+$query = 'SELECT id_attr, attr_name, friendly_name FROM ConfigAttrs WHERE fk_id_class="' . $fk_id_class . '" AND attr_name ="' . mysqli_real_escape_string($dbh, $attr_name) . '"';
 $result = db_handler($query, "assoc", "Check if attribute name already exists in this class");
 
 # Entry exists?  -> if its a modify, the id should be the same as attr_id, else the user tries to rename it to a existing one, which is not allowed!
@@ -173,7 +173,7 @@ if ($write2db == "yes") {
 
         if ($result) {
             # Get ID of insert:
-            $new_id = mysql_insert_id();
+            $new_id = mysqli_insert_id($dbh);
 
             echo NConf_HTML::text("Successfully added attribute &quot;$attr_name&quot;");
 
@@ -344,6 +344,6 @@ if ($write2db == "yes") {
 
 }
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

@@ -4,7 +4,7 @@
         echo NConf_DEBUG::show_debug('INFO', TRUE);
 
         // Finish page
-        mysql_close($dbh);
+        mysqli_close($dbh);
         require_once 'include/foot.php';
         exit;
 ?>

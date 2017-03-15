@@ -103,8 +103,8 @@ if ( !empty($_GET["id"]) ){
                         AND config_class = "contact" 
                         AND attr_value = "'.$_GET["xmode"].'"';
 
-        $qres = mysql_query($query);
-        $entry = mysql_fetch_assoc($qres);
+        $qres = mysqli_query($dbh, $query);
+        $entry = mysqli_fetch_assoc($qres);
 
         $_GET["id"] = $entry["fk_id_item"];
         $item_class = "contact";
@@ -122,7 +122,7 @@ if ( !empty($_GET["id"]) ){
 
 
     # get basic entries (ConfigValues) for passed id
-    $query = mysql_query('SELECT id_attr,attr_value
+    $query = mysqli_query($dbh, 'SELECT id_attr,attr_value
                             FROM ConfigAttrs,ConfigValues,ConfigItems
                             WHERE id_attr=fk_id_attr
                             AND id_item=fk_id_item
@@ -131,7 +131,7 @@ if ( !empty($_GET["id"]) ){
                             ORDER BY ordering');
 
     $item_data = array();
-    while($entry = mysql_fetch_assoc($query)){
+    while($entry = mysqli_fetch_assoc($query)){
         $item_data[$entry["id_attr"]] = $entry["attr_value"];
     }
 
@@ -150,7 +150,7 @@ if ( !empty($_GET["id"]) ){
     $result2 = db_handler($query2, "result", "linked entries");
 
     $item_data2 = array();
-    while($entry2 = mysql_fetch_assoc($result2)){
+    while($entry2 = mysqli_fetch_assoc($result2)){
         $item_data2[$entry2["id_attr"]][$entry2["fk_item_linked2"]] = $entry2["attr_value"];
     }
 
@@ -167,7 +167,7 @@ if ( !empty($_GET["id"]) ){
 
     $result3 = db_handler($query3, "result", "Linked as child");
 
-    while($entry3 = mysql_fetch_assoc($result3)){
+    while($entry3 = mysqli_fetch_assoc($result3)){
         $item_data2[$entry3["id_attr"]][$entry3["fk_id_item"]] = $entry3["attr_value"];
 
     }
@@ -419,7 +419,7 @@ if(
 
             echo NConf_HTML::limit_space($content);
 
-            mysql_close($dbh);
+            mysqli_close($dbh);
             require_once 'include/foot.php';
 
             exit;
@@ -474,8 +474,8 @@ if(
 
             # check if items being displayed are "services"
             if(isset($entry["fk_show_class_items"])){
-                $srvquery = mysql_query('SELECT config_class FROM ConfigClasses WHERE id_class='.$entry["fk_show_class_items"]);
-                $srv = mysql_fetch_assoc($srvquery);
+                $srvquery = mysqli_query($dbh, 'SELECT config_class FROM ConfigClasses WHERE id_class='.$entry["fk_show_class_items"]);
+                $srv = mysqli_fetch_assoc($srvquery);
             }
 
 
@@ -752,7 +752,7 @@ if(
                 if ($entry["mandatory"] == "no"){
                     echo '<option value="">'.SELECT_EMPTY_FIELD.'</option>';
                 }
-                while($menu2 = mysql_fetch_assoc($result2)){
+                while($menu2 = mysqli_fetch_assoc($result2)){
                 //NConf_DEBUG::set($menu2["id_item"].'+++'.$menu2["attr_value"], 'DEBUG', "id attr ".$entry["id_attr"]." : value @ itemdata(idattr)".$item_data[$entry["id_attr"]]);
                 //NConf_DEBUG::set(NConf_HTML::swap_content($item_data, "hmmm"), 'DEBUG', "hmmm");
 
@@ -873,7 +873,7 @@ if(
                 # split predef value
                 $predef_value = preg_split("/".SELECT_VALUE_SEPARATOR."/", $entry["predef_value"]);
                 $selected_items = array();
-                while($menu2 = mysql_fetch_assoc($result2)){
+                while($menu2 = mysqli_fetch_assoc($result2)){
                     // SELECTED
                     if ( isset($_SESSION["cache"]["handle"][$entry["id_attr"]]) ) {
                         if ( in_array($menu2["id_item"], $_SESSION["cache"]["handle"][$entry["id_attr"]]) ){
@@ -1034,7 +1034,7 @@ if(
                 # generate base array
                 $base_array = array();
                 $search_array = array();
-                while($entry_row = mysql_fetch_assoc($result2)){
+                while($entry_row = mysqli_fetch_assoc($result2)){
                     $base_array[$entry_row["id_item"]] = $entry_row;
                     # we need a simpler array for searching when using predef_value:
                     $search_array[$entry_row["id_item"]] = $entry_row["attr_value"];
@@ -1287,6 +1287,6 @@ if ( isset($prepare_status) AND ($prepare_status == 1) ){
 # close content box
 echo '</div>';
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

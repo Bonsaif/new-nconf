@@ -99,7 +99,7 @@
 
     $result = db_handler($query, "result", "fetch all monitor and collector servers from DB");
 
-    while ($entry = mysql_fetch_assoc($result) ){
+    while ($entry = mysqli_fetch_assoc($result) ){
         $renamed = preg_replace('/-|\s/','_',$entry["attr_value"]);
 
         if($entry["config_class"] == 'nagios-collector'){
@@ -277,6 +277,6 @@
         );
     }
 
-    mysql_close($dbh);
+    mysqli_close($dbh);
 
 ?>

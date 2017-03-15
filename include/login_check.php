@@ -111,10 +111,10 @@ if (AUTH_TYPE == "file"){
         # Connect to external database if given
         if ( defined("AUTH_DBNAME") ){
             # if AUTH config is given, use it
-            $auth_db_link = mysql_connect(AUTH_DBHOST,AUTH_DBUSER, AUTH_DBPASS, TRUE);
-            mysql_select_db(AUTH_DBNAME, $auth_db_link);
+            $auth_db_link = mysqli_connect(AUTH_DBHOST, AUTH_DBUSER, AUTH_DBPASS, AUTH_DBNAME, TRUE);
+            //mysql_select_db(AUTH_DBNAME, $auth_db_link);
             $result = db_handler($sqlquery, 'getOne', "Authentication by sql");
-            mysql_close($auth_db_link);
+            mysqli_close($auth_db_link);
         }else{
             # otherwise just use the NConf DB connection
             $result = db_handler($sqlquery, 'getOne', "Authentication by sql using NConf DB");

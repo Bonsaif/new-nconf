@@ -281,6 +281,7 @@ function write_config($file, $replacers, $special = ''){
 
 # For creating/importing the database
 function parse_mysql_dump($url){
+	global $dbh;
 	$result = FALSE;
     $file_content = file($url);
     $query = "";
@@ -293,7 +294,7 @@ function parse_mysql_dump($url){
 		//   - why is there a backslash bevore $
 		//   - [\040] seems not work on xampp (windows) installation
         if(preg_match('/;[\s]*$/', $sql_line)){
-          $result = mysql_query($query);
+          $result = mysqli_query($dbh, $query);
           if (!$result) return $result;
 
           $query = "";
@@ -568,9 +569,9 @@ if ($step == 0){
     }
 
     # php-mysql support
-    $mysql_status = function_exists('mysql_connect');
-    if (!$mysql_status) message ($error, 'Could not find function "mysql_connect()"<br>You must configure PHP with mysql support.');
-    echo table_row_check('PHP-MySQL support', $mysql_status);
+    $mysql_status = function_exists('mysqli_connect');
+    if (!$mysql_status) message ($error, 'Could not find function "mysqli_connect()"<br>You must configure PHP with mysql support.');
+    echo table_row_check('PHP-MySQLi support', $mysql_status);
 
 
     $perl_status = find_PERL_Version();
@@ -597,11 +598,11 @@ if ($step == 0){
         
     if ($db_check !== FALSE ){
         echo table_row_description('Checks', '');
-        if (function_exists('mysql_connect')){
-            $dbh = @mysql_connect(check_session_value("DBHOST"),check_session_value("DBUSER"),check_session_value("DBPASS"));
+        if (function_exists('mysqli_connect')){
+            $dbh = @mysqli_connect(check_session_value("DBHOST"), check_session_value("DBUSER"), check_session_value("DBPASS"), check_session_value("DBNAME"));
             if (!$dbh){
                 # unfortunately mysql_error wont give information about last error here
-                message($error, 'Could not connect: ' . mysql_error());
+                message($error, 'Could not connect: ' . mysqli_error($dbh));
                 # php >= 5.2.0 provides additional phperror which could give more information about the last mysql error
                 if ( function_exists('error_get_last') ){
                     $php_error = error_get_last();
@@ -610,7 +611,7 @@ if ($step == 0){
             }
         }else{
             $dbh = FALSE;
-            message($error, '<b>mysql_connect</b> not found, you must install PHP with mysql support!');
+            message($error, '<b>mysqli_connect</b> not found, you must install PHP with mysql support!');
         }
 
         if (!$dbh){
@@ -619,7 +620,7 @@ if ($step == 0){
             echo table_row_description('', "<br>$msg_error");
         }else{
             echo table_row_check('connect to mysql', TRUE ); 
-            $db_selected = @mysql_select_db(check_session_value("DBNAME"));
+            $db_selected = @mysqli_select_db($dbh, check_session_value("DBNAME"));
             if ($db_selected ){
                 # DB selected, try to create tables
                 echo table_row_check('access database', TRUE ); 

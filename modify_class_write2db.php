@@ -141,6 +141,6 @@ if ($write2db == "yes") {
     }
 }
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

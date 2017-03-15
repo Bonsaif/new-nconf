@@ -162,7 +162,7 @@ echo '</table>';
 
 echo '</div>';
 
-mysql_close($dbh);
+mysqli_close($dbh);
 
 
 ?>

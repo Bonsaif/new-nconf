@@ -91,7 +91,7 @@ if ( isset($show_class_select) ){
         echo '<td><select name="class" style="width:192px" onchange="document.filter.submit()">';
         //echo '<option value="">'.SELECT_EMPTY_FIELD.'</option>';
 
-        while($row = mysql_fetch_row($result)){
+        while($row = mysqli_fetch_row($result)){
             echo "<option value=$row[0]";
             if ( (isset($class) ) AND ($row[0] == $class) ) echo " SELECTED";
             echo ">$row[0]</option>";
@@ -187,7 +187,7 @@ if ( !empty($_GET["do"]) AND !empty($_GET["id"]) ){
 
         $count = 1;
         $naming_attr_count = 0;
-        while($entry = mysql_fetch_assoc($result)){
+        while($entry = mysqli_fetch_assoc($result)){
             $row_warn = 0;
             if ($entry["naming_attr"] == "yes"){
                 $naming_attr_count++;
@@ -298,7 +298,7 @@ echo NConf_HTML::ui_table($table, 'ui-nconf-max-width');
 
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 
 ?>

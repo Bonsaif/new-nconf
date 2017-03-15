@@ -180,9 +180,9 @@ echo '<div style="width: '.$width.'px;">';
                 <td width="20"></td>
                 <td><select name="selectusergroup" onchange="check_input()">
 <?php
-    $query = mysql_query("SELECT grouping FROM ConfigClasses WHERE nav_privs = 'user' AND grouping != '' GROUP BY grouping ORDER BY grouping");
+    $query = mysqli_query($dbh, "SELECT grouping FROM ConfigClasses WHERE nav_privs = 'user' AND grouping != '' GROUP BY grouping ORDER BY grouping");
     echo '<option value="">&nbsp;</option>';
-    while($entry = mysql_fetch_row($query)){
+    while($entry = mysqli_fetch_row($query)){
         echo '<option value="'.$entry[0].'"';
             if ( $entry[0] == $class_entry["grouping"] ) echo " selected";
         echo " >$entry[0]</option>";
@@ -196,9 +196,9 @@ echo '<div style="width: '.$width.'px;">';
                 <td width="20"></td>
                 <td><select name="selectadmingroup" onchange="check_input()">
 <?php
-    $query = mysql_query("SELECT grouping FROM ConfigClasses WHERE nav_privs = 'admin' AND grouping != '' GROUP BY grouping ORDER BY grouping");
+    $query = mysqli_query($dbh, "SELECT grouping FROM ConfigClasses WHERE nav_privs = 'admin' AND grouping != '' GROUP BY grouping ORDER BY grouping");
     echo '<option value="">&nbsp;</option>';
-    while($entry = mysql_fetch_row($query)){
+    while($entry = mysqli_fetch_row($query)){
         echo '<option value="'.$entry[0].'"';
             if ( $entry[0] == $class_entry["grouping"] ) echo " selected";
         echo " >$entry[0]</option>";
@@ -383,6 +383,6 @@ echo '<div style="width: '.$width.'px;">';
 
 
 <?php
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

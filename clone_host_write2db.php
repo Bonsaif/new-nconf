@@ -16,18 +16,18 @@ $query = 'SELECT fk_id_item,attr_value FROM ConfigValues,ConfigAttrs,ConfigClass
                     AND config_class="host"
             AND attr_value = "'.$_POST["hostname"].'"';
 
-$result = mysql_query($query);
+$result = mysqli_query($dbh, $query);
 
 # Entry not existing, lets try to clone...
 echo NConf_HTML::page_title('host', 'Clone host');
 
 #############
 # Entry exists ?
-if (mysql_num_rows($result)){
+if (mysqli_num_rows($result)){
     NConf_DEBUG::set('An item with the name &quot;'.$_POST["hostname"].'&quot; already exists!', 'ERROR');
     NConf_DEBUG::set('For its details click the link below or go back:', 'ERROR');
     $list_items = '';
-    while($entry = mysql_fetch_assoc($result)){
+    while($entry = mysqli_fetch_assoc($result)){
         $list_items .= '<li><a href="detail.php?id='.$entry["fk_id_item"].'">'.$entry["attr_value"].'</a></li>';
     }
     $list = '<ul>'.$list_items.'</ul>';
@@ -362,7 +362,7 @@ if (mysql_num_rows($result)){
 } // END Entry exists ?
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 
 require_once 'include/foot.php';
 ?>
