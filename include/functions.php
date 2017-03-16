@@ -1062,6 +1062,7 @@ function db_handler($query, $output = "result", $debug_title = "query"){
                 case "result":
                     $return = $result;
                     # DEBUG output with new API module:
+                    $debug_data_result  = NConf_HTML::text('<b>Result:</b>Result output not yet defined');           //.$return);
                     break;
                 
                 case "query":
