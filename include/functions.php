@@ -1062,7 +1062,6 @@ function db_handler($query, $output = "result", $debug_title = "query"){
                 case "result":
                     $return = $result;
                     # DEBUG output with new API module:
-                    //$debug_data_result  = NConf_HTML::text('<b>Result:</b>'.$return);
                     break;
                 
                 case "query":
@@ -1072,7 +1071,7 @@ function db_handler($query, $output = "result", $debug_title = "query"){
                     break;
                 
                 case "insert_id":
-                    $new_id = mysqli_insert_id();
+                    $new_id = mysqli_insert_id($dbh);
                     $return = $new_id;
                     # DEBUG output with new API module:
                     $debug_data_result  = NConf_HTML::text('<b>Result: last query generated ID:</b>'.$return);
@@ -1144,7 +1143,7 @@ function db_handler($query, $output = "result", $debug_title = "query"){
 
         }else{
             // makes an open debug entry with mysql_error info
-            $debug_entry = NConf_HTML::swap_content($debug_query_output.'<br><b>mysql error:</b>'.mysqli_error(), '<b class="attention" >SQL</b> '.$debug_title, TRUE, FALSE, 'debbug_query color_warning');
+            $debug_entry = NConf_HTML::swap_content($debug_query_output.'<br><b>mysql error:</b>'.mysqli_error($dbh), '<b class="attention" >SQL</b> '.$debug_title, TRUE, FALSE, 'debbug_query color_warning');
             NConf_DEBUG::set($debug_entry, 'DEBUG');
         }
 
