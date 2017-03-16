@@ -1,8 +1,10 @@
 Working Release 1.4.0
 
+ADDED   Link to CHANGELOG in head.php
+FIXED   additional small fixes in history.php
 CHANGED changed mysql-api from php-mysql to php-mysqli (procedurally first, later switch to object oriented)
-CHANGED	preparation for db-module switch from deprecated mysql to mysqli
-ADDED	some additional logging features
+CHANGED preparation for db-module switch from deprecated mysql to mysqli
+ADDED   some additional logging features
 FIXED   some issues with php and perl compatibelity
 
 Release 1.3.1 (2017-02-17) (branch feature-navigation merged to master)

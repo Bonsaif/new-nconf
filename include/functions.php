@@ -1062,7 +1062,8 @@ function db_handler($query, $output = "result", $debug_title = "query"){
                 case "result":
                     $return = $result;
                     # DEBUG output with new API module:
-                    $debug_data_result  = NConf_HTML::text('<b>Result:</b>Result output not yet defined');           //.$return);
+                    $debug_data_result  = NConf_HTML::text('<b>Result:</b>'.mysqli_affected_rows($dbh));           //.$return);
+					//error_log(" -->NCONF-INFO<--: Variable '".mysqli_affected_rows($dbh), 0);
                     break;
                 
                 case "query":
