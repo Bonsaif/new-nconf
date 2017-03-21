@@ -1017,11 +1017,13 @@ function db_handler($query, $output = "result", $debug_title = "query"){
     # Remove beginning spaces
     $query = trim($query);
 	global $dbh;
+	global $dbh_obj;
 
     if ( (DB_NO_WRITES == 1) AND ( !preg_match("/^SELECT/i", $query) ) ){
         message ('INFO', "DB_NO_WRITES activated, no deletions or modifications will be performed");
     }else{
-        $result = mysqli_query($dbh, $query);
+        //$result = $dbh_obj->query($query);
+	$result = mysqli_query($dbh, $query);
         // new DEBUG output
         $debug_query        = NConf_HTML::text_converter("sql_uppercase", $query);
         $debug_query_output = NConf_HTML::swap_content($debug_query, 'Query', FALSE, FALSE);
@@ -1062,8 +1064,8 @@ function db_handler($query, $output = "result", $debug_title = "query"){
                 case "result":
                     $return = $result;
                     # DEBUG output with new API module:
-                    $debug_data_result  = NConf_HTML::text('<b>Result:</b>'.mysqli_affected_rows($dbh));           //.$return);
-					//error_log(" -->NCONF-INFO<--: Variable '".mysqli_affected_rows($dbh), 0);
+                    $debug_data_result  = NConf_HTML::text('<b>Result: SQL-State: </b>'.mysqli_sqlstate($dbh));
+                    //error_log(" -->NCONF-INFO<--: Variable '".mysqli_affected_rows($dbh), 0);
                     break;
                 
                 case "query":
