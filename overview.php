@@ -599,7 +599,7 @@ if( ( isset($class) ) AND ($class != "") ){
     if ($class == "host"){
         echo '<table class="overview_head" style="width: 100%;">';
     }else{
-        $table_width = 400;
+        $table_width = 450;
         if ($class == "service") $table_width = 500;
 
         echo '<table class="overview_head" style="width: '.$table_width.'px;">';
@@ -685,7 +685,7 @@ if( ( isset($class) ) AND ($class != "") ){
              </colgroup>';
 
     }else{
-        $table_width = 400;
+        $table_width = 450;
         if ($class == "service") $table_width = 500;
         echo '<table class="ui-nconf-table ui-widget ui-widget-content" style="min-width:400px" width="'.$table_width.'">';
 
