@@ -264,7 +264,7 @@ if (  ( is_array($checkcommand) ) AND !empty($checkcommand)  ){
             ////
             // Add other attributes (visible=yes)
             foreach( $attrs_visible_yes AS $attribute_key => $attribute_value ){
-                NConf_DEBUG::set( $attribute_key." -> ".$attribute_value, 'DEBUG', "Add attribute");
+                NConf_DEBUG::set( json_encode($attribute_key)." -> ".json_encode($attribute_value), 'DEBUG', "Add attribute");
                 $result = add_attribute($new_service_ID, $attribute_key, $attribute_value);
             }
 
