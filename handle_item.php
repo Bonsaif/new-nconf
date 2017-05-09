@@ -279,7 +279,14 @@ NConf_DEBUG::set($item_class, 'DEBUG', 'Handle class: ');
 ###
 # Title
 ###
-$item_name = db_templates("naming_attr", isset($_GET["id"]));
+//id Filled check
+if (!isset($_GET["id"])) {
+    $ID = "";
+}else{
+   $ID = $_GET["id"];
+}
+
+$item_name = db_templates("naming_attr", "$ID");
 echo NConf_HTML::page_title($item_class);
 echo '<div class="ui-nconf-header ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">';
     echo '<div>';

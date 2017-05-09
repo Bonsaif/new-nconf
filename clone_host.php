@@ -13,7 +13,8 @@ if ( isset($_SESSION["cache"]["clone"]) ){
 }elseif( !empty($_GET["id"]) ){
     $cache["template_id"] = $_GET["id"];
 }
-
+$host_id = $_GET["id"];
+$item_name = db_templates("naming_attr", $host_id);
 
 # Title
 echo NConf_HTML::page_title('host', 'Clone host');
