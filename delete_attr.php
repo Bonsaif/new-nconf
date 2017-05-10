@@ -81,7 +81,7 @@ if ( NConf_DEBUG::status('ERROR') ) {
 
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 
 require_once 'include/foot.php';
 ?>

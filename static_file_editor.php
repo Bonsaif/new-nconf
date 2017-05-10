@@ -243,7 +243,7 @@ if ( (!empty($directory) AND !empty($filename) ) AND ($file_content !== FALSE) )
 echo '</form>';
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 
 ?>

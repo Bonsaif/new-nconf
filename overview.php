@@ -233,7 +233,7 @@ echo NConf_HTML::page_title($class, '');
             $add_item = get_image( array(  "type" => "design",
                                            "name" => "add",
                                            "size" => 16,
-                                           "tooltip" => 'Add '.$nav_class["friendly_name"],
+                                           "tooltip" => 'Add '.isset($nav_class["friendly_name"]),
                                            "class" => "lighten ui-button"
                                         ) );
             $add_link .= '<a href="handle_item.php?item='.$class.'">'.$add_item.' Add new '.$class.'</a>';
@@ -258,7 +258,7 @@ if ( isset($show_class_select) ){
         echo '<td colspan=2><select name="filter1">';
         echo '<option value="">'.SELECT_EMPTY_FIELD.'</option>';
 
-        while($row = mysql_fetch_row($result)){
+        while($row = mysqli_fetch_row($result)){
             echo "<option value=$row[0]";
             if ( (isset($class) ) AND ($row[0] == $class) ) echo " SELECTED";
             echo ">$row[0]</option>";
@@ -298,7 +298,7 @@ echo '<tr>';
                     ORDER BY attr_value
                  ';
         $result = db_handler($query, 'result', "select all os");
-        while ($entry = mysql_fetch_assoc($result) ){
+        while ($entry = mysqli_fetch_assoc($result) ){
             echo '<option value='.$entry["fk_id_item"];
             if ( (isset($filter_os) ) AND ($entry["fk_id_item"] == $filter_os) ) echo " SELECTED";
             echo '>'.$entry["attr_value"].'</option>';
@@ -599,7 +599,7 @@ if( ( isset($class) ) AND ($class != "") ){
     if ($class == "host"){
         echo '<table class="overview_head" style="width: 100%;">';
     }else{
-        $table_width = 400;
+        $table_width = 450;
         if ($class == "service") $table_width = 500;
 
         echo '<table class="overview_head" style="width: '.$table_width.'px;">';
@@ -685,7 +685,7 @@ if( ( isset($class) ) AND ($class != "") ){
              </colgroup>';
 
     }else{
-        $table_width = 400;
+        $table_width = 450;
         if ($class == "service") $table_width = 500;
         echo '<table class="ui-nconf-table ui-widget ui-widget-content" style="min-width:400px" width="'.$table_width.'">';
 
@@ -716,7 +716,7 @@ if( ( isset($class) ) AND ($class != "") ){
         if ($class == "host") {
             echo '<td width="30">'.FRIENDLY_NAME_OS_LOGO.'</td>';
         }
-        while($entry = mysql_fetch_assoc($title_result)){
+        while($entry = mysqli_fetch_assoc($title_result)){
             if ($class == "host"){
                 $order_value = (!empty($order) AND $order ==  "hostname ASC") ? 'hostname DESC' : 'hostname ASC';
             }elseif ($class == "checkcommand"){
@@ -789,7 +789,7 @@ if( ( isset($class) ) AND ($class != "") ){
     echo '<tbody class="ui-widget-content">';
 
     # check for nothing found
-    if ( mysql_num_rows($result) == 0 ){
+    if ( mysqli_num_rows($result) == 0 ){
         echo '<tr class="color_list1 highlight"><td colspan=9>'.TXT_NOTHING_FOUND.'</td></tr>';
     }elseif ($class == "host") {
         # Show host overview    
@@ -797,7 +797,7 @@ if( ( isset($class) ) AND ($class != "") ){
         # result was generated near row 384 / 453....
         if ( $result != "" ){
             $count = 1;
-            while($entry = mysql_fetch_assoc($result)){
+            while($entry = mysqli_fetch_assoc($result)){
 
                 # set list color
                 if ((1 & $count) == 1){
@@ -865,7 +865,7 @@ if( ( isset($class) ) AND ($class != "") ){
 
         if ($result != "") {
             $count = 1;
-            while($entry = mysql_fetch_assoc($result)){
+            while($entry = mysqli_fetch_assoc($result)){
                 # class for not active services
                 if( !empty($entry["service_enabled"]) AND $entry["service_enabled"] === "no"){
                     echo '<tr class="ui-state-error highlight">';
@@ -933,7 +933,7 @@ echo '</form>';
 
 
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 
 ?>

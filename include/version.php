@@ -2,7 +2,7 @@
 #
 # File for Version number and info
 #
-define("VERSION_NUMBER", '1.3.1');
+define("VERSION_NUMBER", '1.4.0');
 define("VERSION_STRING", '<img src="design_templates/nconf_fresh/nconf-logo-16.gif" style="vertical-align:bottom" alt="nconf-logo">
                           <b>NConf '.VERSION_NUMBER.' (dev)</b>');
 
@@ -21,9 +21,10 @@ define("DISCLAIMER_STRING", '<b>Developed by:</b>
                             <li>
                               <a href="https://github.com/gargiulo" target="_blank">Angelo Gargiulo</a>
                             </li>
+							<li>Bernhard Waldvogel</li>
                           </ul>
                           <br><b>Supported by:
-                          <br><ul><li>Bernhard Waldvogel</li></ul>
+                          <br><ul><li>Frank Luczak</li></ul>
                           <br><br><b>License:</b>
                           <br>This software is distributed under the <a href="http://www.opensource.org/licenses/gpl-2.0.php" target="_blank">
                             GNU General Public License (GPL)</a>.

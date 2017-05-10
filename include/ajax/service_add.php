@@ -70,7 +70,7 @@ if (  ( is_array($checkcommand) ) AND !empty($checkcommand)  ){
         if ( $insert ){
 
             // Get generated ID
-            $new_service_ID = mysql_insert_id();
+            $new_service_ID = mysqli_insert_id($dbh);
 
             // Link new service with host        
             $query = 'INSERT INTO ItemLinks (fk_id_item,fk_item_linked2,fk_id_attr) 
@@ -194,8 +194,8 @@ if (  ( is_array($checkcommand) ) AND !empty($checkcommand)  ){
 
             $result = db_handler($query, "result", "select timeperiods");
             if ($result){
-                if ( mysql_num_rows($result) > 0 ){
-                    while ($timeperiod = mysql_fetch_assoc($result)){
+                if ( mysqli_num_rows($result) > 0 ){
+                    while ($timeperiod = mysqli_fetch_assoc($result)){
                         // get timeperiods attr id
                         $timeperiod_id = db_templates("get_attr_id", "service", $timeperiod["attr_name"]);
                         //remove from attrs_visible_yes
@@ -234,8 +234,8 @@ if (  ( is_array($checkcommand) ) AND !empty($checkcommand)  ){
 
             $result = db_handler($query, "result", "Link service with same contactgroups as host (select)");
             if ($result){
-                if ( mysql_num_rows($result) > 0 ){
-                    while ($contactgroup_ID = mysql_fetch_row($result)){
+                if ( mysqli_num_rows($result) > 0 ){
+                    while ($contactgroup_ID = mysqli_fetch_row($result)){
                         // get contact_groups attr id
                         $contact_groups_id = db_templates("get_attr_id", "service", "contact_groups");
                         //remove from attrs_visible_yes
@@ -264,7 +264,7 @@ if (  ( is_array($checkcommand) ) AND !empty($checkcommand)  ){
             ////
             // Add other attributes (visible=yes)
             foreach( $attrs_visible_yes AS $attribute_key => $attribute_value ){
-                NConf_DEBUG::set( $attribute_key." -> ".$attribute_value, 'DEBUG', "Add attribute");
+                NConf_DEBUG::set( json_encode($attribute_key)." -> ".json_encode($attribute_value), 'DEBUG', "Add attribute");
                 $result = add_attribute($new_service_ID, $attribute_key, $attribute_value);
             }
 

@@ -376,7 +376,7 @@ class NConf_HTML{
         include('include/foot.php');
 
         if ( isset($dbh) ){
-            mysql_close($dbh);
+            mysqli_close($dbh);
         }
 
         exit;

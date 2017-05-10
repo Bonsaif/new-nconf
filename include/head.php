@@ -172,9 +172,15 @@ $NConf_PERMISSIONS = new NConf_PERMISSIONS;
     <center>
         <div>
             <table>
+			  <colgroup> 
+				<col width="600px">
+				<col width="50px">
+				<col width="50px">
+			  </colgroup>
                 <tr>
                     <td>Welcome&nbsp;<?php if( isset($_SESSION["userinfos"]['username']) ) echo $_SESSION["userinfos"]['username']; ?></td>
-                    <td><div align="right"><a title="Get help on nconf.org" class="jQ_tooltip" href="http://www.nconf.org/dokuwiki/doku.php?id=nconf:help:main" target="_blank">[ Help ]</a></div></td>
+                    <td><div align="center"><a title="Get help on nconf.org" class="jQ_tooltip" href="http://www.nconf.org/dokuwiki/doku.php?id=nconf:help:main" target="_blank">[ Help ]</a></div></td>
+					<td><div align="center"><a title="See the CHANGELOG for recent changes" class="jQ_tooltip" href="CHANGELOG" target="_blank">[ ChangeLog ]</a></div></td>
                 </tr>
             </table>
         </div>
@@ -189,8 +195,8 @@ $NConf_PERMISSIONS = new NConf_PERMISSIONS;
         require_once(NCONFDIR."/include/menu/menu_end.php");
 
         # check for mysql support before calling any DB functions
-        $mysql_status = function_exists('mysql_connect');
-        if (!$mysql_status) message ($critical, 'Could not find function "mysql_connect()"<br>You must configure PHP with mysql support.');
+        $mysqli_status = function_exists('mysqli_connect');
+        if (!$mysqli_status) message ($critical, 'Could not find function "mysqli_connect()"<br>You must configure PHP with mysql support.');
         
         echo '<div id="maincontent">';
     }elseif ( ( isset($_SERVER["REQUEST_URI"]) AND preg_match( '/'.preg_quote('UPDATE.php').'/', $_SERVER['REQUEST_URI']) )

@@ -13,7 +13,8 @@ if ( isset($_SESSION["cache"]["clone"]) ){
 }elseif( !empty($_GET["id"]) ){
     $cache["template_id"] = $_GET["id"];
 }
-
+$host_id = $_GET["id"];
+$item_name = db_templates("naming_attr", $host_id);
 
 # Title
 echo NConf_HTML::page_title('host', 'Clone host');
@@ -41,9 +42,9 @@ $query = 'SELECT fk_id_item,attr_value FROM ConfigValues,ConfigAttrs,ConfigClass
                     AND config_class="host" 
                 ORDER BY attr_value';
 
-$result = mysql_query($query);
+$result = mysqli_query($dbh, $query);
 
-while($hosts = mysql_fetch_assoc($result)){
+while($hosts = mysqli_fetch_assoc($result)){
     echo '<option value='.$hosts["fk_id_item"];
     if ( (isset($cache["template_id"])) AND ($cache["template_id"] == $hosts["fk_id_item"]) ) {
         echo ' SELECTED';
@@ -80,8 +81,8 @@ while($hosts = mysql_fetch_assoc($result)){
                     }
                     echo'>-> clone original parent hosts</option>';
 
-                $result = mysql_query($query);
-                while($hosts = mysql_fetch_assoc($result)){
+                $result = mysqli_query($dbh, $query);
+                while($hosts = mysqli_fetch_assoc($result)){
                     echo '<option value='.$hosts["fk_id_item"];
                     if ( isset($_SESSION["cache"]["clone"]["parents"]) ){
                         if ( in_array($hosts["fk_id_item"], $_SESSION["cache"]["clone"]["parents"]) ) {
@@ -118,6 +119,6 @@ $_SESSION["submited"] = "yes";
 </form>
 
 <?php
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 ?>

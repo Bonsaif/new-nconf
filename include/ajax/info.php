@@ -29,7 +29,7 @@ if ($_GET["type"] == "basic"){
 
     $result = db_handler($query, "result", "get basic entries");
     if ($result){
-        while($entry = mysql_fetch_assoc($result)){
+        while($entry = mysqli_fetch_assoc($result)){
             echo '<tr>';
                 echo '<td style="vertical-align:text-top" width="150" class="color_list2">&nbsp;'.$entry["friendly_name"].':&nbsp;</td>';
                 if ( $entry["datatype"] == "password" ){

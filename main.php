@@ -33,10 +33,17 @@ require_once(NCONFDIR.'/include/includeAllClasses.php');
 #
 require_once(NCONFDIR.'/config/mysql.php');
 #
-# mysql Initiate connection
+# mysql Initiate connection procedurally
 #
-$dbh = mysql_connect(DBHOST,DBUSER,DBPASS);
-mysql_select_db(DBNAME);
+$dbh = mysqli_connect(DBHOST,DBUSER,DBPASS,DBNAME);
+//mysql_select_db(DBNAME);
+#
+# mysql Initiate connection object oriented
+#
+$dbh_obj = new mysqli(DBHOST,DBUSER,DBPASS,DBNAME);
+if ($dbh_obj->connect_errno) {
+    die("Verbindung fehlgeschlagen: " . $dbh_obj->connect_error);
+}
 
 #
 # some misc gui things

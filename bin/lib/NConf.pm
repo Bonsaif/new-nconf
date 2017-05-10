@@ -30,19 +30,22 @@ $NC_loglevel = 3;
 ##############################################################################
 
 BEGIN {
-    use vars qw(@ISA @EXPORT @EXPORT_OK $VERSION $AUTHOR $COPYRIGHT);
+    use vars qw(@ISA @EXPORT @EXPORT_OK $VERSION $AUTHOR $MAINTAINER $COPYRIGHT);
  
     @ISA         = qw(Exporter);
     @EXPORT      = qw($NC_loglevel %NC_macro_values NC_CONFDIR setLoglevel);
     @EXPORT_OK   = qw();
     $VERSION     = 0.3;
     $AUTHOR      = "A. Gargiulo";
-    $COPYRIGHT   = "(c) 2006 - 2013 Sunrise Communications AG, Zurich, Switzerland";
+	$MAINTAINER  = "F. Luczak";
+    $COPYRIGHT   = "Project homepage: http://www.nconf.org";
 }
-
+# Modul "POSIX" laden und die "strftime" in den aktuellen Namensraum exportieren.
+use POSIX qw/ strftime /;
+my $d = strftime("%Y-%m-%d %H:%M:%S", localtime);
 print STDERR "\n";
-print STDERR "[ Initializing NConf perl-API (library version $VERSION, written by $AUTHOR) ]\n";
-print STDERR "[ Copyright $COPYRIGHT  ]\n\n";
+print STDERR "[ $d Initializing NConf perl-API (library version $VERSION, written by $AUTHOR and maintained by $MAINTAINER) ]\n";
+print STDERR "[ $d $COPYRIGHT  ]\n\n";
 
 ##############################################################################
 ### S U B S ##################################################################

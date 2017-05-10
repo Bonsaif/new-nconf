@@ -21,7 +21,7 @@ $query = 'SELECT attr_value, fk_id_item
 $result = db_handler($query, "result", "Check if entry already exists");        
 
 # Entry exists ?
-if ( (mysql_num_rows($result)) AND ($config_class != "service") ){
+if ( (mysqli_num_rows($result)) AND ($config_class != "service") ){
 */
 
 # naming attr of class
@@ -78,13 +78,13 @@ if ($config_class == "service"){
 $result = db_handler($query, "result", "does entry already exist");
         
 # Entry exists ?
-if ( mysql_num_rows($result) ){
+if ( mysqli_num_rows($result) ){
 
     NConf_DEBUG::set('An item with the name &quot;'.$_POST[$id_naming_attr].'&quot; already exists!', 'ERROR');
     NConf_DEBUG::set('For its details click the link below or go back:', 'ERROR');
 
     $list_items = '';
-    while($entry = mysql_fetch_assoc($result)){
+    while($entry = mysqli_fetch_assoc($result)){
         $list_items .= '<li><a href="detail.php?id='.$entry["fk_id_item"].'">'.$entry["attr_value"].'</a></li>';
     }
     $list = '<ul>'.$list_items.'</ul>';
@@ -141,7 +141,7 @@ if ( mysql_num_rows($result) ){
 
         if ( $insert ){
             # Get ID of insert:
-            $id = mysql_insert_id();
+            $id = mysqli_insert_id($dbh);
 
             # add item CREATED to history
             if ($config_class == "service"){

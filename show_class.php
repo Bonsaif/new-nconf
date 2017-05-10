@@ -97,7 +97,7 @@ foreach ($nav_tree as $nav_priv) {
         $count = 1;
         $naming_attr_count = 0;
         $group_bevore = '';
-        while($entry = mysql_fetch_assoc($result)){
+        while($entry = mysqli_fetch_assoc($result)){
             $row_warn = 0;
             $naming_attr_cell = "&nbsp;";
 
@@ -192,7 +192,7 @@ foreach ($nav_tree as $nav_priv) {
 
 echo '</div>';
 
-mysql_close($dbh);
+mysqli_close($dbh);
 require_once 'include/foot.php';
 
 ?>

@@ -30,18 +30,18 @@ if ( !empty($_GET["id"]) ){
 $sLimit = "";
 if ( isset( $_GET['iDisplayStart'] ) AND ( !empty($_GET['iDisplayLength']) AND $_GET['iDisplayLength'] != "-1" ) )
 {
-    $sLimit = "LIMIT ".mysql_real_escape_string( $_GET['iDisplayStart'] ).", ".
-        mysql_real_escape_string( $_GET['iDisplayLength'] );
+    $sLimit = "LIMIT ".$dbh_obj->real_escape_string($_GET['iDisplayStart'] ).", ".
+        $dbh_obj->real_escape_string($_GET['iDisplayLength'] );
 }
 
 /* Ordering */
 if ( isset( $_GET['iSortCol_0'] ) )
 {
     $sOrder = "ORDER BY  ";
-    for ( $i=0 ; $i<mysql_real_escape_string( $_GET['iSortingCols'] ) ; $i++ )
+    for ( $i=0 ; $i<$dbh_obj->real_escape_string($_GET['iSortingCols'] ) ; $i++ )
     {
-        $sOrder .= fnColumnToField(mysql_real_escape_string( $_GET['iSortCol_'.$i] ))."
-            ".mysql_real_escape_string( $_GET['sSortDir_'.$i] ) .", ";
+        $sOrder .= fnColumnToField($dbh_obj->real_escape_string($_GET['iSortCol_'.$i] ))."
+            ".$dbh_obj->real_escape_string($_GET['sSortDir_'.$i] ) .", ";
     }
     $sOrder = substr_replace( $sOrder, "", -2 );
 }
@@ -58,7 +58,7 @@ if ( $_GET['sSearch'] != "" )
         # after the first search, add a AND
         if ($i > 0) $sWhere .= ' AND ';
         # concatenate all history fields with separator and search word
-        $sWhere .= "CONCAT_WS(',', LOWER(user_str), action, attr_name, LOWER(attr_value), timestamp ) LIKE '%".mysql_real_escape_string( strtolower($search_word) )."%'";
+        $sWhere .= "CONCAT_WS(',', LOWER(user_str), action, attr_name, LOWER(attr_value), timestamp ) LIKE '%".$dbh_obj->real_escape_string(strtolower($search_word) )."%'";
         $i++;
     }
     $sWhere .= " ) ";
@@ -82,13 +82,13 @@ $sQuery = 'SELECT SQL_CALC_FOUND_ROWS *
 if ($debug == "yes") echo $sQuery;
 
 
-$rResult = mysql_query( $sQuery, $dbh ) or die('Query: '.$sQuery.'<br><br>'.mysql_error());
+$rResult = $dbh_obj->query($sQuery) or die('Query: '.$sQuery.'<br><br>'.$dbh_obj->error);
 
 $sQuery = "
     SELECT FOUND_ROWS()
 ";
-$rResultFilterTotal = mysql_query( $sQuery, $dbh ) or die(mysql_error());
-$aResultFilterTotal = mysql_fetch_array($rResultFilterTotal);
+$rResultFilterTotal = $dbh_obj->query($sQuery) or die($dbh_obj->error);
+$aResultFilterTotal = $rResultFilterTotal->fetch_array();
 $iFilteredTotal = $aResultFilterTotal[0];
 
 $sQuery = "
@@ -97,8 +97,8 @@ $sQuery = "
     WHERE "
     . $basic_query;
 
-$rResultTotal = mysql_query( $sQuery, $dbh ) or die(mysql_error());
-$aResultTotal = mysql_fetch_array($rResultTotal);
+$rResultTotal = $dbh_obj->query($sQuery) or die($dbh_obj->error);
+$aResultTotal = $rResultTotal->fetch_array();
 $iTotal = $aResultTotal[0];
 
 
@@ -114,7 +114,7 @@ if (function_exists("json_encode")){
         "iTotalDisplayRecords" => $iFilteredTotal,
         "aaData" => array()
     );
-    while ( $aRow = mysql_fetch_array($rResult, MYSQL_ASSOC) )
+    while ( $aRow = $rResult->fetch_array(MYSQLI_ASSOC) )
     {
         # do some stuff before generating output
 
@@ -154,7 +154,7 @@ if (function_exists("json_encode")){
     $sOutput .= '"aaData": [ ';
     
     
-    while ( $aRow = mysql_fetch_array( $rResult ) )
+    while ( $aRow = $rResult->fetch_array() )
     {
         # do some stuff bevore generating output
     
