@@ -1,5 +1,9 @@
-Working Release 1.4.0
+Working Release 1.5.0
 
+
+Release 1.4.0 (2017-05-10)
+
+FIXED   Navigation buttons on check commands page and php notice: array to string conversion
 ADDED   Link to CHANGELOG in head.php
 FIXED   additional small fixes in history.php
 CHANGED changed mysql-api from php-mysql to php-mysqli (procedurally first, later switch to object oriented)
