@@ -692,8 +692,8 @@ if( ( isset($class) ) AND ($class != "") ){
         echo '<colgroup>';
             echo '<col>';
             if ( !isset($_GET["xmode"]) ){
-                echo '<col width="30">';
-                echo '<col width="30">';
+                echo '<col width="35">';
+                echo '<col width="35">';
             }else{
                 # xmode view 
                 echo '<col width="60">';
