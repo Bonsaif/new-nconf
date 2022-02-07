@@ -1,3 +1,8 @@
+Working Release 1.5.0
+
+FIXED   corrections on table head for xmode actions in overview.php
+
+
 Release 1.4.0 (2017-05-10)
 
 FIXED   Navigation buttons on check commands page and php notice: array to string conversion
