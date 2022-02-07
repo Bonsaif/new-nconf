@@ -152,10 +152,10 @@ $NConf_PERMISSIONS = new NConf_PERMISSIONS;
 
     echo '<link rel="stylesheet" type="text/css" href="design_templates/'.TEMPLATE_DIR.'/jQuery/jquery.table.css">';
     echo '<link rel="stylesheet" type="text/css" href="design_templates/'.TEMPLATE_DIR.'/jQuery/nconf-widget.css">';
-
+    echo '<title>NConf / '.strtoupper($_SERVER['SERVER_NAME']).'</title>';
     ?>
 
-    <title>NConf</title>
+    
 </head>
 
 
