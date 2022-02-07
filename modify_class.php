@@ -180,7 +180,7 @@ echo '<div style="width: '.$width.'px;">';
                 <td width="20"></td>
                 <td><select name="selectusergroup" onchange="check_input()">
 <?php
-    $query = mysqli_query($dbh, "SELECT grouping FROM ConfigClasses WHERE nav_privs = 'user' AND grouping != '' GROUP BY grouping ORDER BY grouping");
+    $query = mysqli_query($dbh, "SELECT `grouping` FROM ConfigClasses WHERE nav_privs = 'user' AND `grouping` != '' GROUP BY `grouping` ORDER BY `grouping`");
     echo '<option value="">&nbsp;</option>';
     while($entry = mysqli_fetch_row($query)){
         echo '<option value="'.$entry[0].'"';
@@ -196,7 +196,7 @@ echo '<div style="width: '.$width.'px;">';
                 <td width="20"></td>
                 <td><select name="selectadmingroup" onchange="check_input()">
 <?php
-    $query = mysqli_query($dbh, "SELECT grouping FROM ConfigClasses WHERE nav_privs = 'admin' AND grouping != '' GROUP BY grouping ORDER BY grouping");
+    $query = mysqli_query($dbh, "SELECT `grouping` FROM ConfigClasses WHERE nav_privs = 'admin' AND `grouping` != '' GROUP BY `grouping` ORDER BY `grouping`");
     echo '<option value="">&nbsp;</option>';
     while($entry = mysqli_fetch_row($query)){
         echo '<option value="'.$entry[0].'"';

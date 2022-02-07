@@ -193,7 +193,7 @@ function attr_order($id, $mode){
 
 function class_order($id, $mode){
     // Get old order and class
-    $result_assoc  = db_handler("SELECT ordering, grouping, nav_privs FROM ConfigClasses WHERE id_class=$id", "assoc", "GET order and grouping of class");
+    $result_assoc  = db_handler("SELECT ordering, `grouping`, nav_privs FROM ConfigClasses WHERE id_class=$id", "assoc", "GET order and grouping of class");
       $old_order  = $result_assoc["ordering"];
       $group  = $result_assoc["grouping"];
       $nav_priv  = $result_assoc["nav_privs"];
@@ -201,9 +201,9 @@ function class_order($id, $mode){
     // Select next class to change with
     // Make query right to the mode up/down
     if ($mode == "up") {
-        $query = 'SELECT id_class, ordering AS dest_order FROM ConfigClasses WHERE ordering < '.$old_order.' AND grouping="'.$group.'" AND nav_privs="'.$nav_priv.'" ORDER BY ordering DESC LIMIT 1';
+        $query = 'SELECT id_class, ordering AS dest_order FROM ConfigClasses WHERE ordering < '.$old_order.' AND `grouping`="'.$group.'" AND nav_privs="'.$nav_priv.'" ORDER BY ordering DESC LIMIT 1';
     }elseif ($mode == "down"){
-        $query = 'SELECT id_class, ordering AS dest_order FROM ConfigClasses WHERE ordering > '.$old_order.' AND grouping="'.$group.'"AND nav_privs="'.$nav_priv.'" ORDER BY ordering ASC LIMIT 1';
+        $query = 'SELECT id_class, ordering AS dest_order FROM ConfigClasses WHERE ordering > '.$old_order.' AND `grouping`="'.$group.'"AND nav_privs="'.$nav_priv.'" ORDER BY ordering ASC LIMIT 1';
     }
     $result_assoc = db_handler($query, "assoc", "GET new order (and the id_class of destination)");
       $dest_id  = $result_assoc["id_class"];

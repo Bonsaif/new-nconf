@@ -54,7 +54,7 @@ if (isset($_POST['nav_links'])) {
 }
 
 if (($_POST['old_nav_privs'] != $nav_privs OR $_POST['old_group'] != $grouping) OR ($class_id == "new")) {
-    $query = "SELECT MAX(ordering)+1 FROM ConfigClasses WHERE grouping = '$grouping' AND nav_privs = '$nav_privs'";
+    $query = "SELECT MAX(ordering)+1 FROM ConfigClasses WHERE `grouping` = '$grouping' AND nav_privs = '$nav_privs'";
     $ordering = db_handler($query, "getOne", "Get MAX ordering of coresponding group");
     if ($ordering == NULL) {
         $ordering = 0;
@@ -80,7 +80,7 @@ if ($write2db == "yes") {
         // Generate navigation link string
         $nav_links = 'Show::overview.php?class=' . $config_class . ';;Add::handle_item.php?item=' . $config_class;
         // Make insert (adding class)
-        $query = "INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, grouping, nav_links, nav_privs, class_type, ordering, out_file, nagios_object)
+        $query = "INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, `grouping`, nav_links, nav_privs, class_type, ordering, out_file, nagios_object)
                     VALUES ('$config_class', '$friendly_name', '$nav_visible', '$grouping', '$nav_links', '$nav_privs', '$class_type', '$ordering', '$out_file', '$nagios_object')";
         $action = "created";
     } else {
@@ -92,7 +92,7 @@ if ($write2db == "yes") {
                     config_class = '$config_class',
                     friendly_name = '$friendly_name',
                     nav_visible = '$nav_visible',
-                    grouping = '$grouping',
+                    `grouping` = '$grouping',
                     nav_links = '$nav_links',
                     nav_privs = '$nav_privs',
                     class_type = '$class_type',

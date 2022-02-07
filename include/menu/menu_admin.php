@@ -9,7 +9,7 @@
 
         <?php
         // Select ConfigClasses
-        $query = 'SELECT * FROM ConfigClasses WHERE nav_privs = "admin" AND nav_visible = "yes" ORDER BY UPPER(grouping), ordering ASC, config_class';
+        $query = 'SELECT * FROM ConfigClasses WHERE nav_privs = "admin" AND nav_visible = "yes" ORDER BY UPPER(`grouping`), ordering ASC, config_class';
         $result = db_handler($query, "array", "Select admin Navigation classes");
 
         // Creates admin menu dynamic

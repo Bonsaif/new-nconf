@@ -2,7 +2,7 @@
 #
 # File for Version number and info
 #
-define("VERSION_NUMBER", '1.5.0');
+define("VERSION_NUMBER", '1.6.0');
 define("VERSION_STRING", '<img src="design_templates/nconf_fresh/nconf-logo-16.gif" style="vertical-align:bottom" alt="nconf-logo">
                           <b>NConf '.VERSION_NUMBER.' (dev)</b>');
 #define("VERSION_STRING", '<img src="design_templates/nconf_fresh/nconf-logo-16.gif" style="vertical-align:bottom" alt="nconf-logo">

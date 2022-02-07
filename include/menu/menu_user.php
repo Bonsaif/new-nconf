@@ -27,7 +27,7 @@ echo '
         ###
         # user navigation links of classes
         # Select ConfigClasses
-        $query = 'SELECT grouping, nav_links, friendly_name, config_class  FROM ConfigClasses WHERE nav_privs = "user" AND nav_visible = "yes" ORDER BY UPPER(grouping), ordering ASC, config_class';
+        $query = 'SELECT `grouping`, nav_links, friendly_name, config_class  FROM ConfigClasses WHERE nav_privs = "user" AND nav_visible = "yes" ORDER BY UPPER(`grouping`), ordering ASC, config_class';
         $user_menu_end = db_handler($query, "array", "Select user Navigation classes");
 
 

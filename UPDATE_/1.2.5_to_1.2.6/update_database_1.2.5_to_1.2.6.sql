@@ -38,7 +38,7 @@ UPDATE ConfigAttrs SET friendly_name='host preset commands' WHERE attr_name='com
 UPDATE ConfigAttrs SET attr_name='host-preset', friendly_name='host preset' WHERE attr_name='host-template' AND fk_id_class=(SELECT id_class FROM ConfigClasses WHERE config_class='host');
 
 # -- add "host-template" class and attributes --
-INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, ordering, grouping, nav_links, nav_privs, out_file, nagios_object)
+INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, ordering, `grouping`, nav_links, nav_privs, out_file, nagios_object)
 VALUES ('host-template','Host templates','yes',12,'','Show::overview.php?class=host-template;;Add::add_item.php?item=host-template','admin','host_templates.cfg','host');
 INSERT INTO ConfigAttrs (attr_name, friendly_name, description, datatype, max_length, poss_values, predef_value, mandatory, ordering, visible, write_to_conf, naming_attr, link_as_child, fk_show_class_items, fk_id_class) VALUES
 ('name','template name','','text',255,'','','yes',1,'yes','yes','yes','no',NULL,(SELECT id_class FROM ConfigClasses WHERE config_class='host-template')),
@@ -64,7 +64,7 @@ INSERT INTO ConfigAttrs (attr_name, friendly_name, description, datatype, max_le
 ('freshness_threshold','freshness threshold','age threshold in [sec.]','text',5,'','','no',21,'yes','yes','no','no',NULL,(SELECT id_class FROM ConfigClasses WHERE config_class='host-template'));
 
 # -- add "service-template" class and attributes --
-INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, ordering, grouping, nav_links, nav_privs, out_file, nagios_object) 
+INSERT INTO ConfigClasses (config_class, friendly_name, nav_visible, ordering, `grouping`, nav_links, nav_privs, out_file, nagios_object) 
 VALUES ('service-template','Service templates','yes',13,'','Show::overview.php?class=service-template;;Add::add_item.php?item=service-template','admin','service_templates.cfg','service');
 INSERT INTO ConfigAttrs (attr_name, friendly_name, description, datatype, max_length, poss_values, predef_value, mandatory, ordering, visible, write_to_conf, naming_attr, link_as_child, fk_show_class_items, fk_id_class) VALUES 
 ('name','template name','','text',255,'','','yes',1,'yes','yes','yes','no',NULL,(SELECT id_class FROM ConfigClasses WHERE config_class='service-template')),
