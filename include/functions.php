@@ -62,7 +62,7 @@ function message($LEVEL, $text, $mode = "standard"){
 function escape_string($string){
     # Strip slashes if magic_quotes_gpc is ON (DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 6.0.0.)
     # Reverse magic_quotes_gpc/magic_quotes_sybase effects on those vars if ON.
-    if (get_magic_quotes_gpc() ){
+    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc() ){
         message('DEBUG', "magic_quotes_gpc is ON: using stripslashes to correct it");
         $string = stripslashes($string);
     }
@@ -1260,9 +1260,9 @@ function add_attribute($id, $id_attr, $attr_value){
             $attr_datatype = db_templates("attr_datatype", $attr["key"]);
 
             # save assign_one/assign_many/assign_cust_order in ItemLinks
-            while ( $many_attr = each($attr["value"]) ){
+            foreach ($attr["value"] as $many_attr_key => $many_attr_value ){
                 # if value is empty go to next one
-                if (!$many_attr["value"]){
+                if (!$many_attr_value){
                     continue;
                 }else{
 
@@ -1272,24 +1272,24 @@ function add_attribute($id, $id_attr, $attr_value){
                         $query = 'INSERT INTO ItemLinks
                             (fk_id_item, fk_item_linked2, fk_id_attr, cust_order)
                             VALUES
-                            ('.$many_attr["value"].', '.$id.', '.$attr["key"].', '.$cust_order.')
+                            ('.$many_attr_value.', '.$id.', '.$attr["key"].', '.$cust_order.')
                             ';
                     }else{
                         $query = 'INSERT INTO ItemLinks
                             (fk_id_item, fk_item_linked2, fk_id_attr, cust_order)
                             VALUES
-                            ('.$id.', '.$many_attr["value"].', '.$attr["key"].', '.$cust_order.')
+                            ('.$id.', '.$many_attr_value.', '.$attr["key"].', '.$cust_order.')
                             ';
                     }    
 
                     if (DB_NO_WRITES != 1) {
                         $result_insert = db_handler($query, "insert", "Insert");
                         if ( $result_insert ){
-                            history_add("assigned", $attr["key"], $many_attr["value"], $id, "resolve_assignment");
+                            history_add("assigned", $attr["key"], $many_attr_value, $id, "resolve_assignment");
                             message ('DEBUG', '', "ok");
-                            //message ('DEBUG', 'Successfully linked "'.$many_attr["value"].'" with '.$attr["key"]);
+                            //message ('DEBUG', 'Successfully linked "'.$many_attr_value.'" with '.$attr["key"]);
                         }else{
-                            message ('ERROR', 'Error when linking '.$many_attr["value"].' with '.$attr["key"].':'.$query);
+                            message ('ERROR', 'Error when linking '.$many_attr_value.' with '.$attr["key"].':'.$query);
                         }
                     }
 
@@ -1542,7 +1542,7 @@ function js_prepare($content){
 # compare_hostname($hostname, $_SESSION["cmdb_serverlist"]);
 function compare_hostname($hostname, $array){
     if ( (defined('CMDB_SERVERLIST_COMPARE') AND CMDB_SERVERLIST_COMPARE == 1) AND (is_array($array)) ){
-        if (COMPARE_IGNORE){
+        if (defined('COMPARE_IGNORE') && COMPARE_IGNORE) {
             // Change the hostname befor compare with cmdblist
             $hostname = preg_replace('/\.phs$/', '', $hostname);
             $hostname = preg_replace('/\.2nd$/', '', $hostname);

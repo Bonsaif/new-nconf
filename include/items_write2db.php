@@ -1,35 +1,35 @@
 <?php
-            while ( $attr = each($items2write) ){
+            foreach($items2write as $attr_key => $attr_value){
 
                 # only entries with attribute id in the key will be accepted
-                if ( is_int($attr["key"]) ){
+                if ( (int)$attr_key == $attr_key ){
 
                     # Get name of attribute:
-                    $attr_name = db_templates("friendly_attr_name", $attr["key"]);
+                    $attr_name = db_templates("friendly_attr_name", $attr_key);
                     if ( $attr_name ){
                         NConf_DEBUG::open_group($attr_name);
 
                         if ($handle_action == "multimodify") $HIDDEN_selected_attr = $attr_name;
                     }
 
-                    if ( is_array($attr["value"]) ){
+                    if ( is_array($attr_value) ){
                         # modify assign_one/assign_many in ItemLinks
                         # get datatype for handling assign_cust_order
-                        $attr_datatype = db_templates("attr_datatype", $attr["key"]);
+                        $attr_datatype = db_templates("attr_datatype", $attr_key);
 
                         # Check if the values are modifyied, only save changed values
-                        if ( !isset($old_linked_data[$attr["key"]]) ){
-                            //$old_linked_data[$attr["key"]] = array("0" => "");
-                            $old_linked_data[$attr["key"]] = array();
+                        if ( !isset($old_linked_data[$attr_key]) ){
+                            //$old_linked_data[$attr_key] = array("0" => "");
+                            $old_linked_data[$attr_key] = array();
                         }
 
                         # if no value is selected there comes an empty 0 (zero) item, remove this
-                        if ( isset($attr["value"][0]) AND empty($attr["value"][0]) ){
-                            unset($attr["value"][0]);
+                        if ( isset($attr_value[0]) AND empty($attr_value[0]) ){
+                            unset($attr_value[0]);
                         }
 
-                        NConf_DEBUG::set($old_linked_data[$attr["key"]], 'DEBUG', "old data");
-                        NConf_DEBUG::set($attr["value"], 'DEBUG', "new data");
+                        NConf_DEBUG::set($old_linked_data[$attr_key], 'DEBUG', "old data");
+                        NConf_DEBUG::set($attr_value, 'DEBUG', "new data");
 
                         # check replace_mode
                         $replace_mode = (!empty($_POST["replace_mode"]) ) ? $_POST["replace_mode"] : "replace";
@@ -37,17 +37,17 @@
                         # Assigned items
                         if ($attr_datatype == "assign_cust_order" AND $replace_mode == "replace"){
                             # compare arrays with additional index check
-                            $diff_array = array_diff_assoc($attr["value"] ,$old_linked_data[$attr["key"]]);
+                            $diff_array = array_diff_assoc($attr_value,$old_linked_data[$attr_key]);
                         }else{
                             # normal compare of arrays
                             # also cust_order items in "add" mode need normal diff, because we just want to know difference, not exact position compares
-                            $diff_array = array_diff($attr["value"] ,$old_linked_data[$attr["key"]]);
+                            $diff_array = array_diff($attr_value, $old_linked_data[$attr_key]);
                         }
 
                         # Unassigned items
                         if ($attr_datatype == "assign_cust_order" AND $replace_mode == "replace"){
                             # compare arrays with additional index check
-                            $diff_array2 = array_diff_assoc($old_linked_data[$attr["key"]], $attr["value"]);
+                            $diff_array2 = array_diff_assoc($old_linked_data[$attr_key], $attr_value);
                         }else{
                             if ($handle_action == "multimodify" AND $replace_mode == "add"){
                                 # Mode: "add" in the multimodify GUI will not replace the values, it will just add the additional ones.
@@ -55,12 +55,12 @@
                                 $diff_array2 = array();
                             }else{
                                 # normal compare of arrays
-                                $diff_array2 = array_diff($old_linked_data[$attr["key"]], $attr["value"]);
+                                $diff_array2 = array_diff($old_linked_data[$attr_key], $attr_value);
                             }
                         }
                         if ( !empty($diff_array2) ){
-                            while ( $attr_removed = each($diff_array2) ){
-                                history_add("unassigned", $attr_name, $attr_removed["value"], $id, "resolve_assignment");
+                            foreach ($diff_array2 as $attr_removed) {
+                                history_add("unassigned", $attr_name, $attr_removed, $id, "resolve_assignment");
                                 $edited = TRUE;
                             }
                         }
@@ -91,7 +91,7 @@
                             $lac_OR_bidirectional = TRUE;
                         }else{
                             # check link_as_child & link_bidirectional
-                            $lac_OR_bidirectional = check_link_as_child_or_bidirectional($attr["key"], $class_id);
+                            $lac_OR_bidirectional = check_link_as_child_or_bidirectional($attr_key, $class_id);
                         }
 
                         if ($handle_action == "multimodify" AND $replace_mode == "add"){
@@ -101,12 +101,12 @@
                                 # interchange data
 
                                 $delete_query_lac = 'DELETE FROM ItemLinks
-                                        WHERE fk_id_attr="'.$attr["key"].'"
+                                        WHERE fk_id_attr="'.$attr_key.'"
                                         AND fk_item_linked2="'.$id.'"';
                                 db_handler($delete_query_lac, "delete", "Delete link as child");
                             }else{
                                 $delete_query = 'DELETE FROM ItemLinks
-                                        WHERE fk_id_attr="'.$attr["key"].'"
+                                        WHERE fk_id_attr="'.$attr_key.'"
                                         AND fk_id_item="'.$id.'"';
                                 db_handler($delete_query, "delete", "Delete (not link as child)");
                             }
@@ -120,7 +120,7 @@
                         # counter for assign_cust_order
                         if ( $attr_datatype == "assign_cust_order" AND $replace_mode == "add" ){
                             # on add mode we put the items behind the current ones
-                            $cust_order = count($old_linked_data[$attr["key"]]);
+                            $cust_order = count($old_linked_data[$attr_key]);
                         }else{
                             $cust_order = 0;
                         }
@@ -131,16 +131,16 @@
                             $add_items = $diff_array;
                         }else{
                             # take send data for replace/overrides and normal add's
-                            $add_items = $attr["value"];
+                            $add_items = $attr_value;
                         }
-						
+
                         # old value was removed but we do not have to set a new one ( user selected empty field )
                         # mark current item as ok
                         if ( $handle_action == "multimodify" AND empty($add_items) ) $info_summary["ok"][] = $name;
-						
-                        while ( $many_attr = each($add_items) ){
+
+                        foreach ($add_items as $many_attr_value) {
                             # if value is empty go to next one
-                            if (!$many_attr["value"]){
+                            if (!$many_attr_value){
                                 continue;
                             }else{
                                 # if the circumstances are correct, link as child / bidirectional (change values)
@@ -149,32 +149,32 @@
                                 ###
                                 # make variables easier for vice versa sql query
                                 if ($lac_OR_bidirectional){
-                                    $id_1 = $many_attr["value"];
+                                    $id_1 = $many_attr_value;
                                     $id_2 = $id;
                                 }else{
                                     $id_1 = $id;
-                                    $id_2 = $many_attr["value"];
+                                    $id_2 = $many_attr_value;
                                 }
                                 # attr id
-                                $fk_id_attr = $attr["key"];
+                                $fk_id_attr = $attr_key;
 
-                                
+
                                 # check if value is already linked vice versa
                                 $query_vv = 'SELECT fk_id_item FROM ItemLinks
                                             WHERE fk_id_attr = '.$fk_id_attr.'
                                                 AND fk_id_item = '.$id_2.'
                                                 AND fk_item_linked2 = '.$id_1.';';
                                 $vice_versa_exists = db_handler($query_vv, "num_rows", 'VICE VERSA-check');
-
                                 # prevent linking item with himself
                                 # this is possible on multimodify because it should be available for others
                                 $links_himself = FALSE;
-
                                 # only check when multimodify:
+                                
+                                
+                                
                                 if ($handle_action == "multimodify" AND ($id_1 === $id_2) ){
                                     $links_himself = TRUE;
                                 }
-
                                 # evaluate checks bevore linking items
                                 if ( ($vice_versa_exists === 0) AND ($links_himself === FALSE) ){
                                     $query = 'INSERT INTO ItemLinks
@@ -186,7 +186,7 @@
                                         $result = db_handler($query, "result", 'link "'.$id_1.'" with '.$id_2);
                                         if ($result){
                                             // ok
-                                            history_add("assigned", $attr_name, $many_attr["value"], $id, "resolve_assignment");
+                                            history_add("assigned", $attr_name, $many_attr_value, $id, "resolve_assignment");
                                             if ($handle_action == "multimodify") $info_summary["ok"][] = $name;
                                             $edited = TRUE;
                                         }else{
@@ -217,32 +217,32 @@
                     }else{
                         # Lookup datatype
                         $query = 'SELECT ConfigValues.attr_value, ConfigAttrs.datatype FROM `ConfigAttrs`, ConfigValues
-                                    WHERE ConfigAttrs.id_attr = "'.$attr["key"].'"
+                                    WHERE ConfigAttrs.id_attr = "'.$attr_key.'"
                                     AND ConfigValues.fk_id_attr = ConfigAttrs.id_attr
                                     AND ConfigValues.fk_id_item = "'.$id.'"';
 
                         $check = db_handler($query, "assoc", "Lookup value and datatype");
                         if ($check == FALSE){
-                            $check["datatype"] = db_templates("attr_datatype", $attr["key"]);
+                            $check["datatype"] = db_templates("attr_datatype", $attr_key);
                         }
-                        
+
                         # Check if the value has changed
-                        if ( !isset($check["attr_value"]) OR ($check["attr_value"] != $attr["value"]) ){
+                        if ( !isset($check["attr_value"]) OR ($check["attr_value"] != $attr_value) ){
                             if ($check["datatype"] == "password"){
                                 // IF Password field is a encrypted, do not save
-                                if ( preg_match( '/^{.*}/', $attr["value"]) ){
+                                if ( preg_match( '/^{.*}/', $attr_value) ){
                                     message ($info, "encrypted field will not be saved");
                                     continue;
-                                }elseif ( (PASSWD_DISPLAY == 0) AND  ( strpos($attr["value"], PASSWD_HIDDEN_STRING) !== false) ){
+                                }elseif ( (PASSWD_DISPLAY == 0) AND  ( strpos($attr_value, PASSWD_HIDDEN_STRING) !== false) ){
                                     // Passwort was displayed as "hidden" like "********", do not save
                                     message ($info, "passwd was hidden and not modified");
                                     continue;
                                 }else{
-                                    $insert_attr_value = encrypt_password($attr["value"]);
+                                    $insert_attr_value = encrypt_password($attr_value);
                                 }
                             }else{
                                 // modify text/select
-                                $insert_attr_value = escape_string($attr["value"]);
+                                $insert_attr_value = escape_string($attr_value);
                             }
 
                             # only multimodify:
@@ -281,7 +281,7 @@
                             $query =   'INSERT INTO ConfigValues
                                             (attr_value, fk_id_attr, fk_id_item)
                                         VALUES
-                                            ("'.$insert_attr_value.'", "'.$attr["key"].'", '.$id.' )
+                                            ("'.$insert_attr_value.'", "'.$attr_key.'", '.$id.' )
                                         ON DUPLICATE KEY UPDATE
                                             attr_value="'.$insert_attr_value.'"
                                         ';
@@ -290,7 +290,7 @@
                             if ($insert){
                                 message ($debug, 'Successfully added ('.stripslashes($insert_attr_value).')');
                                 if ($handle_action == "multimodify") $info_summary["ok"][] = $name;
-                                history_add("modified", $attr["key"], $insert_attr_value, $id);
+                                history_add("modified", $attr_key, $insert_attr_value, $id);
                                 $edited = TRUE;
                             }else{
                                 message ($error, 'Error while adding '.stripslashes($insert_attr_value).':'.$query);
